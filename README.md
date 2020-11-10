@@ -1,8 +1,8 @@
 # Who am I?
 
-It's something to let my informations in one local.
+It's something to let my information in one local.
 
-This version is a Generic Version because the app don't have a functional data center in the sense that don't need. If you want to use, go on, but, you will need change the informations on the files.
+This version is a Generic Version because the app don't have a functional data center in the sense that don't need. If you want to use, go on, but, you will need change the information on the files.
 
 ### Jorge:
 
