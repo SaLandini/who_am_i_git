@@ -30,10 +30,12 @@ class Consultas extends StatelessWidget{
                       SizedBox(height: 12,),
                       Text(
                           """
-                          Medico:
-                              - ??/?? - ??:?? \n
-                          Reunião:
-                              - ??/?? - ??:?? \n
+                          Dermatologista:
+                              - 16/11 - 14:30 \n
+                          Oftalmologista:
+                              - 17/11 - 13:30 \n
+                          Psiquiatra:
+                              - 03/12 - 14:00 \n
                           """,
                           style: TextStyle(
                             fontSize: 16,

@@ -24,8 +24,8 @@ class NamePicture extends StatelessWidget{
             height: 100,
             child: Text(
               """
-              Geraldo Nome Generico;\n
-              ?? anos - ??/??/????\n
+              Rafael Salandin Moraes;\n
+              16 anos - 09/09/2004\n
               """,
               textAlign: TextAlign.center,
               style: TextStyle(

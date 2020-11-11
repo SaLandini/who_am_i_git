@@ -28,9 +28,9 @@ class Remedio extends StatelessWidget{
                 child: Column(
                   children: <Widget>[
                     SizedBox(height: 20,),
-                    Text("""Periodo 1:
-                         - Genérico;
-                         - Genérico""",
+                    Text("""Manhã:
+                            - Sertralina (100mg);
+                            -Vitaminas;""",
                          style: TextStyle(
                              color: Colors.white,
                              fontFamily: "Noto"),
@@ -38,9 +38,9 @@ class Remedio extends StatelessWidget{
                          textAlign: TextAlign.left,
                     ),
                     SizedBox(height: 20,),
-                    Text("""Periodo 2:
-                            - Genérico;
-                            - Genérico""",
+                    Text("""Almoço:
+                            - Isotretinoína (20mg);
+                            -Vitaminas;""",
                       style: TextStyle(
                           color: Colors.purple,
                           fontFamily: "Noto"),
@@ -48,9 +48,10 @@ class Remedio extends StatelessWidget{
                       textAlign: TextAlign.left,
                     ),
                     SizedBox(height: 20,),
-                    Text("""Periodo 3:
-                            - Genérico;
-                            - Genérico""",
+                    Text("""Noite:
+                            - Alprazolam (2mg);
+                            - Quetiapina (25mg);
+                            - Isotretinoína (20mg);""",
                       style: TextStyle(
                           color: Colors.pinkAccent,
                           fontFamily: "Noto"),

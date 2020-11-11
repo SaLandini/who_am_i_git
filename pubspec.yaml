@@ -22,10 +22,9 @@ environment:
 
 dependencies:
   local_auth: ^0.4.0+1
-  sqflite: ^1.1.5
-  mongo_dart: ^0.4.3
   modal_bottom_sheet: ^0.2.2
   path_provider: ^1.6.22
+  provider:
   flutter:
     sdk: flutter
   cupertino_icons: ^0.1.3

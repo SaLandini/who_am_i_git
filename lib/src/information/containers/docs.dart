@@ -1,72 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:who_am_i/Jorge/provider/docs.dart';
+import 'package:who_am_i/src/routes.dart';
 
-import '../../../Jorge/model/Docs.dart';
-import '../../../Jorge/utils/DocsHelper.dart';
-
-class MiDocs extends StatefulWidget{
-  @override
-  _MiDocState createState() => _MiDocState();
-}
-
-class _MiDocState extends State<MiDocs>{
-
-  TextEditingController txtdoc = TextEditingController();
-  TextEditingController txtnum = TextEditingController();
-
-  List<Document> listadocs = List<Document>();
-  DocumentHelpers _db = DocumentHelpers();
-
-  void SalvarDoc({Document DocSelect}) {
-    setState(() async{
-      if (DocSelect == null){
-        Document obj = Document(txtdoc.text, txtnum.text);
-
-        var resultado =  await _db.inserirDocs(obj);
-
-        if (resultado != null) {
-          print("Fez o cadastro");
-        } else {
-          print("Num rolou");
-        }
-      } else {
-        DocSelect.doc = txtdoc.text;
-        DocSelect.num = txtnum.text;
-
-        int resultado = await _db.alterarDoc(DocSelect);
-        if (resultado != null) {
-          print("Fez a alteração");
-        } else {
-          print("Num rolou");
-        }
-
-      }
-      retornaDocs();
-
-    });
-  }
-  Future<void> retornaDocs() async{
-    List docs = await _db.listarDocs();
-    List<Document> listatemp = List<Document>();
-    for(var i in docs){
-      Document d = Document.deMapParaObjeto(i);
-      listatemp.add(d);
-    }
-    setState((){
-      listadocs = listatemp;
-    });
-    listatemp = null;
-  }
-
-  @override
-  void initState(){
-
-    super.initState();
-    retornaDocs();
-  }
-
+class MiDocs extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
+    final Docs docs = Provider.of(context);
     return SingleChildScrollView(
         child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,59 +31,61 @@ class _MiDocState extends State<MiDocs>{
             child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  Container(
-                  width: double.infinity,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: listadocs.length,
-                    itemBuilder: (context, index){
-                    Document obj = listadocs[index];
-                    return Expanded(
-                      child: ListTile(
-                        title: Text(obj.doc,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontFamily: 'Noto',
-                          color: Colors.white,)),
-                        subtitle: Text(obj.num,
-                         style: TextStyle(
-                         fontSize: 14,
-                         fontFamily: 'Noto',
-                          color: Colors.blueGrey,)),
-                        trailing: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            GestureDetector(
-                              onTap: (){
-                                remove(obj.id);
-                              },
-                              child: Padding(
-                                padding: EdgeInsets.only(right: 16),
-                                child: Icon(Icons.delete, color: Colors.deepPurpleAccent,),
+                   Container(
+                    width: double.infinity,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: docs.count,
+                      itemBuilder: (context, i) => ListTile(
+                          title: Text( docs.byIndex(i).doc,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'Noto',
+                            color: Colors.white,)),
+                          subtitle: Text( docs.byIndex(i).num,
+                           style: TextStyle(
+                           fontSize: 14,
+                           fontFamily: 'Noto',
+                            color: Colors.blueGrey,)),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              GestureDetector(
+                                onTap: (){
+                                  Provider.of<Docs>(context, listen: false).remove(docs.byIndex(i));
+                                },
+                                child: Padding(
+                                  padding: EdgeInsets.only(right: 16),
+                                  child: Icon(Icons.delete, color: Colors.deepPurpleAccent,),
+                                ),
                               ),
-                            ),
-                            GestureDetector(
-                              onTap: (){
-                                exibirTelinha(Documento: obj);
-                              },
-                              child: Padding(
-                                padding: EdgeInsets.only(right: 16),
-                                child: Icon(Icons.edit, color: Colors.deepPurpleAccent,),
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                  );
-                }
-              )
-            )
-          ],
-              ),
-          ),
+                              GestureDetector(
+                                onTap: (){
+                                  Navigator.of(context).pushNamed(AppRoutes.CREATEDOCS,
+                                      arguments: docs);
 
+                                },
+                                child: Padding(
+                                  padding: EdgeInsets.only(right: 16),
+                                  child: Icon(Icons.edit, color: Colors.deepPurpleAccent,),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                    )
+                ),
+
+                ]
+              )
+
+          ),
     FlatButton(
-        onPressed: exibirTelinha,
+        onPressed: () {
+          Navigator.of(context).pushNamed(
+              AppRoutes.CREATEDOCS
+          );
+        },
         child: Text(
               'Cria ae',
               style: TextStyle(
@@ -155,60 +98,6 @@ class _MiDocState extends State<MiDocs>{
         ]
       )
     );
-  }
-  void remove(int id) async{
-    int resultado = await _db.excluitDocs(id);
-    retornaDocs();
-  }
-
-  void exibirTelinha({Document Documento}) async {
-
-    if(Documento == null){
-
-    } else {
-      txtdoc.text = Documento.doc;
-      txtnum.text = Documento.num;
-    }
-
-    showDialog(context: context,
-                builder: (context){
-                  return AlertDialog(
-                    title: Text("Add/Edit Docs"),
-                    content: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        TextField(
-                          controller: txtdoc,
-                          autofocus: true,
-                          decoration: InputDecoration(
-                            labelText: "tipo de doc",
-                          ),
-                        ),
-                        TextField(
-                          controller: txtnum,
-                          autofocus: true,
-                          decoration: InputDecoration(
-                            labelText: "num de doc",
-                          ),
-                        ),
-                      ]),
-                      actions: <Widget>[
-                        FlatButton(
-                          child: Text('Salva ae'),
-                          onPressed: (){
-                            SalvarDoc(DocSelect: Documento);
-                            Navigator.pop(context);
-                          },
-                        ),
-                        FlatButton(
-                          child: Text('Cancela ae'),
-                          onPressed: (){
-                            Navigator.pop(context);
-                          },
-                        )
-                    ],
-                    );
-                });
   }
 
 }

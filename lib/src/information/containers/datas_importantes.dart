@@ -30,10 +30,20 @@ class DatasImportantes extends StatelessWidget{
                         SizedBox(height: 12,),
                         Text(
                             """
-                          Data: 
-                              - ??/??\n
-                          Data: 
-                              - ??/??\n
+                          Alprazolam: Acaba: 
+                              - 13/11\n
+                          Isotretinoína: Acaba: 
+                              - 16/11\n
+                          Sertralina: Acaba: 
+                              - 02/12\n
+                          Quetiapina: Acaba: 
+                              - 28/12\n
+                          Fuvest 1º Fase:
+                              - 10/1/2021 \n
+                          Fuvest 2º Fase:
+                              -  21/2/2021 \n
+                          Fuvest 2º Fase:
+                              -  22/2/2021 \n
                           """,
                             style: TextStyle(
                               fontSize: 16,
